@@ -183,4 +183,8 @@ public class GenericUtility {
 		return driver;
 	}
 
+	//******************************** Misc *********************************
+	public String getRandomValue() {
+		return ""+System.currentTimeMillis();
+	}
 }

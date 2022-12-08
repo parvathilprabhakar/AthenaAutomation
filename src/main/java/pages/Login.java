@@ -18,6 +18,7 @@ public class Login {
 	By byPassword = By.id("password");
 	By byEmailError = By.id("mat-error-1");
 	By login = By.id("registration_form");
+	By bySignUpLink = By.xpath("//a[normalize-space(text())='Sign Up']");
 
 	public void loginToApplication(String usrName, String pWord) {
 		u.enterTextbox(byEmail, usrName);

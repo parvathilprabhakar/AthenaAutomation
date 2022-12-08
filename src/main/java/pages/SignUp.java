@@ -25,7 +25,8 @@ public class SignUp {
 	By byTermsAndConditions = By.id("reg_terms");
 	By bySignUpButton = By.id("registration_form");
 
-	public void signUpForNewUser(String fName,String lName,String country,String mobileNo, String email, String pWord) {
+	public String signUpForNewUser(String fName,String lName,String country,String mobileNo, String email, String pWord) {
+		email = email+"_"+u.getRandomValue();
 		u.enterTextbox(byFirstName, fName);
 		u.enterTextbox(byLastName , lName);
 		u.enterTextbox(byEmail, email);
@@ -36,6 +37,8 @@ public class SignUp {
 		u.enterTextbox(byPassword, pWord);
 		u.click(byTermsAndConditions);
 		u.click(bySignUpButton);
+		
+		return email;
 	}
 
 	public void clickShortCourses() {
