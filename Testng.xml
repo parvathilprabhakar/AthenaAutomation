@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" thread-count="3" parallel="classes">
+  <test name="Test">
+   <parameter name="browser" value="Chrome" />
+    <classes>
+      <class name="smokeTest.SC001_SignInSignUp"/>
+    </classes>
+  </test> <!-- Test --> 
+  
+</suite> <!-- Suite -->
