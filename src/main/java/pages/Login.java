@@ -19,11 +19,15 @@ public class Login {
 	By byEmailError = By.id("mat-error-1");
 	By login = By.id("registration_form");
 	By bySignUpLink = By.xpath("//a[normalize-space(text())='Sign Up']");
-
+ 
 	public void loginToApplication(String usrName, String pWord) {
 		u.enterTextbox(byEmail, usrName);
 		u.enterTextbox(byPassword, pWord);
 		u.click(login);
+	}
+	
+	public void clickOnSignUp() {
+		u.click(bySignUpLink);
 	}
 
 	public void clickShortCourses() {

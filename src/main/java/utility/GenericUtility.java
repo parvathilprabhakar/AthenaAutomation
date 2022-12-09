@@ -141,6 +141,21 @@ public class GenericUtility {
 		data = webElement.getText();
 		return data;
 	}
+	
+	public void isDisplayed(By byLocator,String elementName) {
+		waitToVisible(byLocator);
+		if(driver.findElement(byLocator).isDisplayed())
+			rep.logInReport("Pass", elementName+" is displayed");
+		else
+			rep.logInReport("Fail", elementName+" is NOT displayed");
+	}
+	public boolean isDisplayed(By byLocator) {
+		waitToVisible(byLocator);
+		if(driver.findElement(byLocator).isDisplayed())
+			return true;
+		else
+			return false;
+	}
 
 	// ************************** Actions Class Commands *************************
 	public WebElement aClick(By by) {
@@ -187,4 +202,6 @@ public class GenericUtility {
 	public String getRandomValue() {
 		return ""+System.currentTimeMillis();
 	}
+
+	
 }
