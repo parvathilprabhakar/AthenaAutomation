@@ -8,7 +8,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
+import pages.Dashboard;
 import pages.Login;
+import pages.SignUp;
 import utility.GenericUtility;
 import utility.ReadPropFile;
 
@@ -21,6 +23,9 @@ public class BaseClass {
 	public ReadPropFile prop;
 	GenericUtility u;
 	Login objLogin;
+	SignUp objSignUp;
+	Dashboard objDashboard;
+	String email;
 	
 	@BeforeClass
 	@Parameters("browser")
@@ -33,6 +38,9 @@ public class BaseClass {
 		prop = new ReadPropFile();
 		
 		objLogin=new Login(u);
+		objSignUp = new SignUp(u);
+		objDashboard=new Dashboard(u);
+		
 		
 	}
 

@@ -16,7 +16,14 @@ public class Dashboard {
 	By byDashboardProfilePic = By.xpath("//img[@class='mb-2']");
 	By byAthenaId = By.xpath("//p[contains(text(),'Athena ID:')]");
 
-	public void verifyIfProfilePicIsDisplayed(String usrName, String pWord) {
+	public void verifyIfDashboardDisplayed() {
+		if (u.isDisplayed(byDashboardProfilePic))
+			u.rep.logInReport("Pass", "Dashboard is displayed");
+		else
+			u.rep.logInReport("Fail", "Failed to display Dashboard");
+	}
+	
+	public void verifyIfProfilePicIsDisplayed() {
 		if (u.isDisplayed(byDashboardProfilePic))
 			u.rep.logInReport("Pass", "Profile pic displayed in Dashboard");
 		else

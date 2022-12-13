@@ -1,6 +1,8 @@
 package utility;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -17,7 +19,7 @@ public class ExcelUtility {
 		this.sheetName = sheetName;
 	}
 
-	public String readData(String header) throws Exception {
+	public String readData(String header) throws IOException  {
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\TestData.xlsx");
 		XSSFWorkbook workbook = new XSSFWorkbook(fis);
 		XSSFSheet sheet = workbook.getSheet(sheetName);
