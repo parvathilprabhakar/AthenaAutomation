@@ -2,6 +2,7 @@ package utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -57,7 +58,7 @@ public class GenericUtility {
 	// *********************** Screenshot **********************************
 	public String takeScreenshot() {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File Dest = new File(System.getProperty("user.dir") + "\\Report\\" + reportScreenshotFileName + "\\Screenshot"
+		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
 				+ System.currentTimeMillis() + ".png");
 		String flpath = Dest.getAbsolutePath();
 		try {
@@ -118,6 +119,10 @@ public class GenericUtility {
 		// waitToClick(by);
 		e = driver.findElement(by);
 		return e;
+	}
+	public List<WebElement> elements(By by) {
+		waitToVisible(by);
+		return driver.findElements(by);
 	}
 
 	public WebElement click(By by) {
