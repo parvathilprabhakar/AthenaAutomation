@@ -6,10 +6,10 @@ import org.testng.Assert;
 
 import utility.GenericUtility;
 
-public class Login {
+public class SignIn {
 	GenericUtility u;
 
-	public Login(GenericUtility u) {
+	public SignIn(GenericUtility u) {
 		this.u = u;
 	}
 
@@ -21,6 +21,7 @@ public class Login {
 	By bySignUpLink = By.xpath("//a[normalize-space(text())='Sign Up']");
  
 	public void loginToApplication(String usrName, String pWord) {
+		u.rep.logInReport("Info", "Signing into the application");
 		u.enterTextbox(byEmail, usrName);
 		u.enterTextbox(byPassword, pWord);
 		u.click(login);

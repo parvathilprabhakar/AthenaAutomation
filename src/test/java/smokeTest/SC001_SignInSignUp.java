@@ -13,15 +13,23 @@ public class SC001_SignInSignUp extends BaseClass {
 		objSignUp.clickShortCourses();
 		objSignUp.clickOnSignUpButton();
 		objSignUp.validateMandatoryErrors();
+		u.rep.logInReport("info", "Mandatory message validation completed!");
 	}
 	
-	@Test(enabled = true)
+	@Test(enabled = true, priority=1)
 	public void validateSignUp() throws Exception {
 		u.launchUrl(prop.getPropData().getProperty("URL"));
 		objLogin.clickOnSignUp();
 		objSignUp.clickShortCourses();
+		password = x.readData("Password");
 		email = objSignUp.signUpForNewUser(x.readData("FirstName"), x.readData("LastName"), x.readData("Country"), 
-				x.readData("MobileNo"), x.readData("Email"), x.readData("Password"));
+				x.readData("MobileNo"), x.readData("Email"), password);
+		objDashboard.verifyIfDashboardDisplayed();
+	}
+	@Test(enabled = true, priority=2)
+	public void validateSignIn() throws Exception {
+		u.launchUrl(prop.getPropData().getProperty("URL"));
+		objLogin.loginToApplication(email,password);
 		objDashboard.verifyIfDashboardDisplayed();
 	}
 

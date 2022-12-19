@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 import pages.Dashboard;
-import pages.Login;
+import pages.SignIn;
 import pages.SignUp;
 import utility.GenericUtility;
 import utility.ReadPropFile;
@@ -22,10 +22,11 @@ public class BaseClass {
 	private WebDriver driver;
 	public ReadPropFile prop;
 	public GenericUtility u;
-	Login objLogin;
+	SignIn objLogin;
 	SignUp objSignUp;
 	Dashboard objDashboard;
 	String email;
+	String password = "1234";
 	
 	@BeforeClass
 	@Parameters("browser")
@@ -37,7 +38,7 @@ public class BaseClass {
 		driver.manage().window().maximize();
 		prop = new ReadPropFile();
 		
-		objLogin=new Login(u);
+		objLogin=new SignIn(u);
 		objSignUp = new SignUp(u);
 		objDashboard=new Dashboard(u);
 		
@@ -49,6 +50,7 @@ public class BaseClass {
 		if (driver != null) {
 			driver.quit();
 		}
+		u.rep.terminateExtentReport();
 	}
 
 

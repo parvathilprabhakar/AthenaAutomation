@@ -67,7 +67,7 @@ public class SignUp {
 		u.click(byTermsAndConditions);
 		u.click(bySignUpButton);
 		u.rep.logInReport("Info",
-				"SignUp completed for user:" + "<br>Email: " + email + "<br> Password: " + pWord + "");
+				"SignUp initiated for user:" + "<br>Email: " + email + "<br> Password: " + pWord + "");
 		return email;
 	}
 
