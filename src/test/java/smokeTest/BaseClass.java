@@ -21,7 +21,7 @@ import utility.ReadPropFile;
 public class BaseClass {
 	private WebDriver driver;
 	public ReadPropFile prop;
-	GenericUtility u;
+	public GenericUtility u;
 	Login objLogin;
 	SignUp objSignUp;
 	Dashboard objDashboard;
@@ -46,7 +46,6 @@ public class BaseClass {
 
 	@AfterClass
 	public void closeDriver() {
-		u.rep.terminateExtentReport();
 		if (driver != null) {
 			driver.quit();
 		}

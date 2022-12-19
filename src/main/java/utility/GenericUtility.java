@@ -2,11 +2,14 @@ package utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -25,7 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GenericUtility {
 	protected WebDriver driver;
 	WebElement webElement;
-	long reportScreenshotFileName = System.currentTimeMillis();
+	String reportScreenshotFileName = getDateTime();
 	WebElement e;
 	String currentDirectory = System.getProperty("user.dir");
 	String data;
@@ -56,16 +59,21 @@ public class GenericUtility {
 	}
 
 	// *********************** Screenshot **********************************
+//	public String takeScreenshot() {
+//		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
+//				+ System.currentTimeMillis() + ".png");
+//		String flpath = Dest.getAbsolutePath();
+//		try {
+//			FileUtils.copyFile(scrFile, Dest);
+//		} catch (IOException e) {
+//		}
+//		return flpath;
+//	}
+	
 	public String takeScreenshot() {
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
-				+ System.currentTimeMillis() + ".png");
-		String flpath = Dest.getAbsolutePath();
-		try {
-			FileUtils.copyFile(scrFile, Dest);
-		} catch (IOException e) {
-		}
-		return flpath;
+		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+		return base64Screenshot;
 	}
 
 	// *********************** Launching URL **********************************
@@ -161,7 +169,13 @@ public class GenericUtility {
 		else
 			return false;
 	}
-
+	// ************************** Javascript Class Commands *************************
+	
+	public void jsClick(By by) {
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();", element(by));
+		
+	}
 	// ************************** Actions Class Commands *************************
 	public WebElement aClick(By by) {
 		waitToClick(by);
@@ -203,10 +217,13 @@ public class GenericUtility {
 		return driver;
 	}
 
-	//******************************** Misc *********************************
-	public String getRandomValue() {
-		return ""+System.currentTimeMillis();
+	// ******************************** Misc *********************************
+	public static String getRandomValue() {
+		return "" + System.currentTimeMillis();
 	}
 
-	
+	public static String getDateTime() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		return LocalDate.now().format(formatter)+"_"+getRandomValue();
+	}
 }
