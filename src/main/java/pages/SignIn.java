@@ -19,6 +19,12 @@ public class SignIn {
 	By byEmailError = By.id("mat-error-1");
 	By login = By.id("registration_form");
 	By bySignUpLink = By.xpath("//a[normalize-space(text())='Sign Up']");
+	By bySignInGmail = By.xpath("//div[@class='social-login']//img[contains(@src,'google')]");
+	By bySignInFb = By.xpath("//div[@class='social-login']//img[contains(@src,'facebook')]");
+	
+	By byForgotPassword = By.xpath("//a[normalize-space(text())='Forgot Password ?']");
+	By byForgotPasswordPopupEmail = By.xpath("//input[@ng-reflect-name=\"recovery_email\"]");
+	By byForgotPasswordPopupCancel = By.xpath("//span[normalize-space(text())='Cancel']");
  
 	public void loginToApplication(String usrName, String pWord) {
 		u.rep.logInReport("Info", "Signing into the application");
@@ -33,6 +39,20 @@ public class SignIn {
 
 	public void clickShortCourses() {
 		u.click(byShortCourses);
+	}
+	public void clickForgotPassword() {
+		u.click(byForgotPassword);
+	}
+	public void verifyForgotPasswordIsDisplayed() {
+		u.waitToVisible(byForgotPasswordPopupEmail);
+		if(u.isDisplayed(byForgotPasswordPopupEmail))
+			u.rep.logInReport("Pass", "Forgot password popup displayed successfully");
+		else
+			u.rep.logInReport("Fail", "Failed to display Forgot Password popup");
+	}
+	
+	public void closeForgotPasswordPopup() {
+		u.click(byForgotPasswordPopupCancel);
 	}
 
 }
