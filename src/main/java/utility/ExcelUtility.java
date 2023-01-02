@@ -31,8 +31,8 @@ public class ExcelUtility {
 				col_num = i;
 		}
 		if (col_num == -1) {
-			Assert.fail("No heading found in TestData file");
-			System.out.println("No heading found in TestData file");
+			Assert.fail("'"+header+"' heading is NOT found in TestData file");
+			System.out.println("'"+header+"' heading is NOT found in TestData file");
 		}
 
 		row = sheet.getRow(1);

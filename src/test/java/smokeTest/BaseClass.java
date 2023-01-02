@@ -8,8 +8,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
+import pages.ChangePassword;
+import pages.CommomPage;
+import pages.ContactUs;
 import pages.Dashboard;
+import pages.FAQ;
+import pages.MyProfile;
+import pages.RegisteredCourses;
 import pages.SignIn;
+import pages.SignIn_Prod;
 import pages.SignUp;
 import pages.Tutorial;
 import utility.GenericUtility;
@@ -23,10 +30,17 @@ public class BaseClass {
 	private WebDriver driver;
 	public ReadPropFile prop;
 	public GenericUtility u;
-	SignIn objLogin;
+	SignIn objSignIn;
+	SignIn_Prod objSignIn_Prod;
 	SignUp objSignUp;
 	Dashboard objDashboard;
 	Tutorial objTutorial;
+	MyProfile objMyProfile;
+	ChangePassword objChangePassword;
+	ContactUs objContactUs; 
+	RegisteredCourses objRegisteredCourses;
+	CommomPage objCommomPage;
+	FAQ objFAQ;
 	
 	String email;
 	String password = "1234";
@@ -41,10 +55,17 @@ public class BaseClass {
 		driver.manage().window().maximize();
 		prop = new ReadPropFile();
 		
-		objLogin=new SignIn(u);
+		objSignIn=new SignIn(u);
+		objSignIn_Prod=new SignIn_Prod(u);
 		objSignUp = new SignUp(u);
 		objDashboard=new Dashboard(u);
 		objTutorial = new Tutorial(u);
+		objMyProfile= new MyProfile(u);
+		objRegisteredCourses = new RegisteredCourses(u);
+		objCommomPage = new CommomPage(u);
+		objChangePassword = new ChangePassword(u);
+		objContactUs = new ContactUs(u);
+		objFAQ = new FAQ(u);
 		
 		
 	}

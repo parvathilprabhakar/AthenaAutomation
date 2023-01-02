@@ -31,6 +31,7 @@ public class SignIn {
 		u.enterTextbox(byEmail, usrName);
 		u.enterTextbox(byPassword, pWord);
 		u.click(login);
+		u.waitForLoading();
 	}
 	
 	public void clickOnSignUp() {

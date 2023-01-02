@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -60,6 +63,7 @@ public class GenericUtility {
 
 	// *********************** Screenshot **********************************
 	public String takeScreenshot() {
+		//waitForLoading();
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
 				+ System.currentTimeMillis() + ".png");
@@ -80,6 +84,7 @@ public class GenericUtility {
 	public void launchUrl(String url) {
 		driver.get(url);
 		driver.manage().window().maximize();
+		waitForLoading();
 	}
 
 	// *********************** Navigation Commands ****************************
@@ -89,6 +94,7 @@ public class GenericUtility {
 
 	// *********************** Wait Commands **********************************
 	public WebElement waitToClick(By by) {
+		//waitForLoading();
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(by)));
@@ -102,6 +108,7 @@ public class GenericUtility {
 	}
 
 	public WebElement waitToVisible(By by) {
+		//waitForLoading();
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
@@ -113,7 +120,15 @@ public class GenericUtility {
 		return driver.findElement(by);
 	}
 
+	public void waitUntilInvisible(By by) {
+			WebDriverWait wait = new WebDriverWait(driver, 20);
+			wait.ignoring(NoSuchElementException.class);
+			wait.ignoring(ElementNotVisibleException.class);
+			wait.ignoring(StaleElementReferenceException.class);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+	}
 	public void waitTime(int timeInSecs) {
+		//waitForLoading();
 		try {
 			Thread.sleep(1000 * timeInSecs);
 		} catch (InterruptedException e) {
@@ -124,11 +139,13 @@ public class GenericUtility {
 
 	// ************************** Web Element Commands *************************
 	public WebElement element(By by) {
+		//waitForLoading();
 		// waitToClick(by);
 		e = driver.findElement(by);
 		return e;
 	}
 	public List<WebElement> elements(By by) {
+		//waitForLoading();
 		waitToVisible(by);
 		return driver.findElements(by);
 	}
@@ -141,6 +158,7 @@ public class GenericUtility {
 	}
 
 	public WebElement enterTextbox(By by, String text) {
+		//waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		click(by);
@@ -150,12 +168,14 @@ public class GenericUtility {
 	}
 
 	public String getText(By locator) {
+		//waitForLoading();
 		webElement = driver.findElement(locator);
 		data = webElement.getText();
 		return data;
 	}
 	
 	public void isDisplayed(By byLocator,String elementName) {
+		//waitForLoading();
 		waitToVisible(byLocator);
 		if(driver.findElement(byLocator).isDisplayed())
 			rep.logInReport("Pass", elementName+" is displayed");
@@ -163,6 +183,7 @@ public class GenericUtility {
 			rep.logInReport("Fail", elementName+" is NOT displayed");
 	}
 	public boolean isDisplayed(By byLocator) {
+		//waitForLoading();
 		waitToVisible(byLocator);
 		if(driver.findElement(byLocator).isDisplayed())
 			return true;
@@ -172,12 +193,14 @@ public class GenericUtility {
 	// ************************** Javascript Class Commands *************************
 	
 	public void jsClick(By by) {
+		//waitForLoading();
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
 		jse.executeScript("arguments[0].click();", element(by));
 		
 	}
 	// ************************** Actions Class Commands *************************
 	public WebElement aClick(By by) {
+		//waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		Actions actions = new Actions(driver);
@@ -187,6 +210,7 @@ public class GenericUtility {
 
 	// ************************** Drop Down Commands *************************
 	public WebElement selectDropDownByIndex(By by, int index) {
+		//waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -196,6 +220,7 @@ public class GenericUtility {
 	}
 
 	public WebElement selectDropDownByValue(By by, String value) {
+		//waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -205,6 +230,7 @@ public class GenericUtility {
 	}
 
 	public WebElement selectDropDownByVisibleText(By by, String text) {
+		//waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -217,7 +243,7 @@ public class GenericUtility {
 		return driver;
 	}
 
-	// ******************************** Misc *********************************
+	//******************************** Misc *********************************
 	public static String getRandomValue() {
 		return "" + System.currentTimeMillis();
 	}
@@ -225,5 +251,12 @@ public class GenericUtility {
 	public static String getDateTime() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		return LocalDate.now().format(formatter)+"_"+getRandomValue();
+	}
+	
+	//******************************** Project Specific *********************************
+
+	public void waitForLoading() {
+		By byLoading = By.xpath("//img[@class='ath-spinner']");
+		try {waitUntilInvisible(byLoading);}catch(Exception e) {}
 	}
 }

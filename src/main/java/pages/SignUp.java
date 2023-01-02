@@ -68,6 +68,7 @@ public class SignUp {
 		u.click(bySignUpButton);
 		u.rep.logInReport("Info",
 				"SignUp initiated for user:" + "<br>Email: " + email + "<br> Password: " + pWord + "");
+		u.waitForLoading();
 		return email;
 	}
 
