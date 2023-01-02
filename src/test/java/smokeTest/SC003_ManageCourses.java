@@ -3,7 +3,7 @@ package smokeTest;
 import org.testng.annotations.Test;
 import utility.ExcelUtility;
 
-public class SC002_ForgotPassword extends BaseClass {
+public class SC003_ManageCourses extends BaseClass {
 	ExcelUtility x = new ExcelUtility("Login");
 
 	@Test(enabled = true, priority = 0)

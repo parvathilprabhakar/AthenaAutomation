@@ -11,6 +11,7 @@ import org.testng.annotations.Parameters;
 import pages.Dashboard;
 import pages.SignIn;
 import pages.SignUp;
+import pages.Tutorial;
 import utility.GenericUtility;
 import utility.ReadPropFile;
 
@@ -25,6 +26,8 @@ public class BaseClass {
 	SignIn objLogin;
 	SignUp objSignUp;
 	Dashboard objDashboard;
+	Tutorial objTutorial;
+	
 	String email;
 	String password = "1234";
 	
@@ -41,6 +44,7 @@ public class BaseClass {
 		objLogin=new SignIn(u);
 		objSignUp = new SignUp(u);
 		objDashboard=new Dashboard(u);
+		objTutorial = new Tutorial(u);
 		
 		
 	}
