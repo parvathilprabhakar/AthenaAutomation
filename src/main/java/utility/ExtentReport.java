@@ -1,5 +1,8 @@
 package utility;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -14,21 +17,33 @@ public class ExtentReport {
     WebDriver driver;
     WebElement e;
     String currentDirectory = System.getProperty("user.dir"); 
-	long reportScreenshotFileName;
+	String reportScreenshotFileName;
 	GenericUtility u;
 
 	public ExtentReport(GenericUtility u) {
 		this.u=u;
     }
+	public ExtentReport() {
+		
+    }
+    public void setGenericUtilityInstance(GenericUtility u) {
+		this.u=u;
+		u.reportScreenshotFileName=this.reportScreenshotFileName;
+    }
 
-    
-	 public void initiateExtentReport(String className){
-	    	String reportPath = currentDirectory+"\\ExtentReport\\"+u.reportScreenshotFileName+"\\Results.html";
+	 public void initiateExtentReport(){
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		 reportScreenshotFileName=LocalDate.now().format(formatter)+"_"+System.currentTimeMillis();
+		 
+	    	String reportPath = currentDirectory+"\\ExtentReport\\"+reportScreenshotFileName+"\\Results.html";
 	    	if (System.getProperty("os.name").toLowerCase().contains("mac"))
 	    		reportPath=reportPath.replace("\\", "/");
 	        report = new ExtentReports(reportPath);
-	        test = report.startTest(className);
+//	        test = report.startTest(className);
 	    }
+	 public void startTest(String className) {
+		 test = report.startTest(className);
+	 }
 	    public void logInReport(String status,String details) {
 	        switch (status.toUpperCase()) {
 	            case "PASS":

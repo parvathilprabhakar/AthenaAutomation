@@ -31,19 +31,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GenericUtility {
 	protected WebDriver driver;
 	WebElement webElement;
-	String reportScreenshotFileName = getDateTime();
 	WebElement e;
 	String currentDirectory = System.getProperty("user.dir");
 	String data;
 	public ExtentReport rep;
+	String reportScreenshotFileName;
 
 	public GenericUtility(WebDriver driver, String className) {
 		this.driver = driver;
 		rep = new ExtentReport(this);
-		rep.initiateExtentReport(className);
+		rep.initiateExtentReport();
+		rep.startTest(className);
 	}
 
-	public GenericUtility(String browser,String className) throws Exception {
+	public GenericUtility(String browser, ExtentReport rep) throws Exception {
 		if (browser.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", currentDirectory + "\\drivers\\geckodriver.exe");
 			driver = new FirefoxDriver();
@@ -56,29 +57,35 @@ public class GenericUtility {
 		} else {
 			throw new Exception("Browser is not correct");
 		}
+		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		rep = new ExtentReport(this);
-		rep.initiateExtentReport(className);
+		this.rep=rep;
+		rep.setGenericUtilityInstance(this);
+//		rep = new ExtentReport(this);
+//		rep.initiateExtentReport(className);
 	}
+//	public void setReportInstance(ExtentReport rep) {
+//		this.rep=rep;
+//	}
 
 	// *********************** Screenshot **********************************
-	public String takeScreenshot() {
-		//waitForLoading();
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
-				+ System.currentTimeMillis() + ".png");
-		String flpath = Dest.getAbsolutePath();
-		try {
-			FileUtils.copyFile(scrFile, Dest);
-		} catch (IOException e) {
-		}
-		return flpath;
-	}
-	
 //	public String takeScreenshot() {
-//		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
-//		return base64Screenshot;
+//		//waitForLoading();
+//		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
+//				+ System.currentTimeMillis() + ".png");
+//		String flpath = Dest.getAbsolutePath();
+//		try {
+//			FileUtils.copyFile(scrFile, Dest);
+//		} catch (IOException e) {
+//		}
+//		return flpath;
 //	}
+	
+	public String takeScreenshot() {
+		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+		return base64Screenshot;
+	}
 
 	// *********************** Launching URL **********************************
 	public void launchUrl(String url) {
@@ -121,14 +128,20 @@ public class GenericUtility {
 	}
 
 	public void waitUntilInvisible(By by) {
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.ignoring(NoSuchElementException.class);
-			wait.ignoring(ElementNotVisibleException.class);
-			wait.ignoring(StaleElementReferenceException.class);
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+//			WebDriverWait wait = new WebDriverWait(driver, 20);
+//			wait.ignoring(NoSuchElementException.class);
+//			wait.ignoring(ElementNotVisibleException.class);
+//			wait.ignoring(StaleElementReferenceException.class);
+//			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+		waitTime(2);
+		for(int i=0;i<10; i++) {
+			try {
+				if(driver.findElement(by).isDisplayed()) waitTime(5);
+				else break;
+			}catch(Exception e) {break;}
+		}
 	}
 	public void waitTime(int timeInSecs) {
-		//waitForLoading();
 		try {
 			Thread.sleep(1000 * timeInSecs);
 		} catch (InterruptedException e) {
@@ -247,12 +260,10 @@ public class GenericUtility {
 	public static String getRandomValue() {
 		return "" + System.currentTimeMillis();
 	}
-
 	public static String getDateTime() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		return LocalDate.now().format(formatter)+"_"+getRandomValue();
 	}
-	
 	//******************************** Project Specific *********************************
 
 	public void waitForLoading() {

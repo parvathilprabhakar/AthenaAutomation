@@ -3,8 +3,10 @@ package smokeTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
@@ -19,6 +21,7 @@ import pages.SignIn;
 import pages.SignIn_Prod;
 import pages.SignUp;
 import pages.Tutorial;
+import utility.ExtentReport;
 import utility.GenericUtility;
 import utility.ReadPropFile;
 
@@ -30,6 +33,8 @@ public class BaseClass {
 	private WebDriver driver;
 	public ReadPropFile prop;
 	public GenericUtility u;
+	public ExtentReport rep= new ExtentReport();
+	
 	SignIn objSignIn;
 	SignIn_Prod objSignIn_Prod;
 	SignUp objSignUp;
@@ -45,14 +50,24 @@ public class BaseClass {
 	String email;
 	String password = "1234";
 	
+	@BeforeTest
+	public void InitiateReport() {
+//		rep = new ExtentReport();
+		rep.initiateExtentReport();
+	}
+	@AfterTest
+	public void terminateReport() {
+		rep.terminateExtentReport();
+	}
+	
 	@BeforeClass
 	@Parameters("browser")
 	public void beforeClass(String browser)  {
+		rep.startTest(this.getClass().getName());
 		try {
-			u = new GenericUtility(browser,this.getClass().getName());
+			u = new GenericUtility(browser,rep);
 			driver=u.getDriver();
-		} catch (Exception e) {}
-		driver.manage().window().maximize();
+		} catch (Exception e) {System.out.println(e);}
 		prop = new ReadPropFile();
 		
 		objSignIn=new SignIn(u);
@@ -66,8 +81,6 @@ public class BaseClass {
 		objChangePassword = new ChangePassword(u);
 		objContactUs = new ContactUs(u);
 		objFAQ = new FAQ(u);
-		
-		
 	}
 
 	@AfterClass
@@ -75,7 +88,6 @@ public class BaseClass {
 		if (driver != null) {
 			driver.quit();
 		}
-		u.rep.terminateExtentReport();
 	}
 
 
