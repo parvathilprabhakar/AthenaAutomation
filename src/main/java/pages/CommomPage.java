@@ -54,7 +54,7 @@ public class CommomPage {
 				if (u.isDisplayed(byProfileIconDropdownOptions(op)))
 					u.rep.logInReport("Pass", op+": Option is displayed");
 				else
-					u.rep.logInReport("Fail", "Failed to display option "+op);
+					u.rep.logInReport("Fail", "Failed to display option: "+op);
 			} catch (Exception e) {
 				u.rep.logInReport("Fail", "Failed to display option "+op);// ToDo: Need to handle with listeners
 			}

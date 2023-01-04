@@ -43,8 +43,8 @@ public class Dashboard {
 				 u.rep.logInReport("Pass", "FirstName and Last Name is displayed.<br>" + actualNameGreeting);
 				else
 					u.rep.logInReport("Fail", "Failed to display expected name in Dashboard"
-							+ "<br>Actual" + actualNameGreeting
-							+ "<br>Expected" + expectedNameGreeting);
+							+ "<br>Actual: " + actualNameGreeting
+							+ "<br>Expected: " + expectedNameGreeting);
 			} else
 				u.rep.logInReport("Fail", "Failed to display expected name in Dashboard");
 		} catch (Exception e) {

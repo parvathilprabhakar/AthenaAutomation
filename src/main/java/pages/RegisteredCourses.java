@@ -1,7 +1,10 @@
 package pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import utility.GenericUtility;
@@ -13,46 +16,36 @@ public class RegisteredCourses {
 		this.u = u;
 	}
 
-	By byShortCourses = By.xpath("//a[normalize-space(text())='Short Courses']");
-	By byEmail = By.id("reg_email");
-	By byPassword = By.id("password");
-	By byEmailError = By.id("mat-error-1");
-	By login = By.id("registration_form");
-	By bySignUpLink = By.xpath("//a[normalize-space(text())='Sign Up']");
-	By bySignInGmail = By.xpath("//div[@class='social-login']//img[contains(@src,'google')]");
-	By bySignInFb = By.xpath("//div[@class='social-login']//img[contains(@src,'facebook')]");
+	By bySearchInput = By.xpath("//input[@placeholder='Search your Registered Course']");
+	By bySearchIcon = By.xpath(
+			"//input[@placeholder='Search your Registered Course']/following-sibling::*//span[contains(@class,'find')]");
+	By byTotalTiles = By.xpath("//div[@class='carousel-cell ng-star-inserted']");
+	By byTotalTileHeaders = By.xpath("//div[@class='carousel-cell ng-star-inserted']//h3");
 	
-	By byForgotPassword = By.xpath("//a[normalize-space(text())='Forgot Password ?']");
-	By byForgotPasswordPopupEmail = By.xpath("//input[@ng-reflect-name=\"recovery_email\"]");
-	By byForgotPasswordPopupCancel = By.xpath("//span[normalize-space(text())='Cancel']");
- 
-	public void loginToApplication(String usrName, String pWord) {
-		u.rep.logInReport("Info", "Signing into the application");
-		u.enterTextbox(byEmail, usrName);
-		u.enterTextbox(byPassword, pWord);
-		u.click(login);
-	}
-	
-	public void clickOnSignUp() {
-		u.click(bySignUpLink);
-	}
+	By byLoading_RegisteredCouses = By.xpath("//img[@alt='Registered Courses']");
 
-	public void clickShortCourses() {
-		u.click(byShortCourses);
-	}
-	public void clickForgotPassword() {
-		u.click(byForgotPassword);
-	}
-	public void verifyForgotPasswordIsDisplayed() {
-		u.waitToVisible(byForgotPasswordPopupEmail);
-		if(u.isDisplayed(byForgotPasswordPopupEmail))
-			u.rep.logInReport("Pass", "Forgot password popup displayed successfully");
+	public void searchCourseAndValidateResults(String courseName) {
+		u.aClick(bySearchInput);
+		u.enterTextbox(bySearchInput, courseName);
+		u.aClick(bySearchIcon);
+		u.waitUntilInvisible(byLoading_RegisteredCouses);
+		
+
+		Boolean bSearchWorksFine = true;
+		String actualHeader="";
+		List<WebElement> eTotalTileHeaders = u.elements(byTotalTileHeaders);
+		for (WebElement eHeader : eTotalTileHeaders) {
+			actualHeader = eHeader.getText();
+			if (!actualHeader.toLowerCase().contains(courseName.toLowerCase())) {
+				bSearchWorksFine = false;
+			}
+		}
+		if (bSearchWorksFine)
+			u.rep.logInReport("Pass", "Search works as expected for keyword: "+courseName);
 		else
-			u.rep.logInReport("Fail", "Failed to display Forgot Password popup");
-	}
-	
-	public void closeForgotPasswordPopup() {
-		u.click(byForgotPasswordPopupCancel);
+			u.rep.logInReport("Fail", "Failed to display search result based on the keyword '"+courseName+"'"
+					+"<br>Course listed incorrectly: "+actualHeader);
+
 	}
 
 }

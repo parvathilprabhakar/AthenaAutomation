@@ -69,23 +69,23 @@ public class GenericUtility {
 //	}
 
 	// *********************** Screenshot **********************************
-//	public String takeScreenshot() {
-//		//waitForLoading();
-//		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
-//				+ System.currentTimeMillis() + ".png");
-//		String flpath = Dest.getAbsolutePath();
-//		try {
-//			FileUtils.copyFile(scrFile, Dest);
-//		} catch (IOException e) {
-//		}
-//		return flpath;
-//	}
-	
 	public String takeScreenshot() {
-		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
-		return base64Screenshot;
+		//waitForLoading();
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
+				+ System.currentTimeMillis() + ".png");
+		String flpath = Dest.getAbsolutePath();
+		try {
+			FileUtils.copyFile(scrFile, Dest);
+		} catch (IOException e) {
+		}
+		return flpath;
 	}
+	
+//	public String takeScreenshot() {
+//		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+//		return base64Screenshot;
+//	}
 
 	// *********************** Launching URL **********************************
 	public void launchUrl(String url) {

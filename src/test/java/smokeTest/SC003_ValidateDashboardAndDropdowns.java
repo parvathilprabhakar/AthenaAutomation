@@ -7,7 +7,7 @@ public class SC003_ValidateDashboardAndDropdowns extends BaseClass {
 	ExcelUtility x = new ExcelUtility("SC003");
 
 	@Test(enabled = true, priority = 0)
-	public void validateRegisteredCourses_AddViewSearch() throws Exception {
+	public void validateDashboardAndDropdownNavigations() throws Exception {
 		u.launchUrl(prop.getPropData().getProperty("URL"));
 		email = x.readData("Email");
 		password = x.readData("Password");

@@ -3,9 +3,10 @@
   <test name="Test">
    <parameter name="browser" value="Chrome" />
     <classes>
-       <class name="smokeTest.SC001_SignInSignUp"/>
+    <!--   <class name="smokeTest.SC001_SignInSignUp"/>
        <class name="smokeTest.SC002_ForgotPassword"/>
-       <class name="smokeTest.SC003_ValidateDashboardAndDropdowns"/>
+       <class name="smokeTest.SC003_ValidateDashboardAndDropdowns"/> --> 
+       <class name="smokeTest.SC004_SearchViewRegisteredCourses"/>
     </classes>
   </test> <!-- Test --> 
   
