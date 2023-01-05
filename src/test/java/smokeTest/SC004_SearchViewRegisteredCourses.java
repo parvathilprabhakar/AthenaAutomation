@@ -16,6 +16,9 @@ public class SC004_SearchViewRegisteredCourses extends BaseClass {
 		objRegisteredCourses.searchCourseAndValidateResults(x.readData("Course name to be searched"));
 		objRegisteredCourses.searchCourseAndValidateResults("QA");
 		objRegisteredCourses.searchCourseAndValidateResults("basic");
+		objRegisteredCourses.verifyCourseCountListed(); //ToDo: Update code to check with DB once access is provided
+		objRegisteredCourses.validateLastAccessedCourseIsUpdated();
+		objRegisteredCourses.validateCourseNamesInCards();
 		
 		
 		

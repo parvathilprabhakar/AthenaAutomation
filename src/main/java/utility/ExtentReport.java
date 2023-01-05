@@ -47,13 +47,13 @@ public class ExtentReport {
 	    public void logInReport(String status,String details) {
 	        switch (status.toUpperCase()) {
 	            case "PASS":
-	                test.log(LogStatus.PASS, test.addScreenCapture(u.takeScreenshot())+details);
+					test.log(LogStatus.PASS, /* test.addScreenCapture(u.takeScreenshot())+ */details);
 	                break;
 	            case "FAIL":
 	                test.log(LogStatus.FAIL, test.addScreenCapture(u.takeScreenshot())+details);
 	                break;
 	            case "SKIP":
-	                test.log(LogStatus.SKIP, test.addScreenCapture(u.takeScreenshot())+details);
+					test.log(LogStatus.SKIP, /* test.addScreenCapture(u.takeScreenshot())+ */details);
 	                break;
 	            default:
 	            case "INFO":

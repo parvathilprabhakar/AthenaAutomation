@@ -134,9 +134,9 @@ public class GenericUtility {
 //			wait.ignoring(StaleElementReferenceException.class);
 //			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 		waitTime(2);
-		for(int i=0;i<10; i++) {
+		for(int i=0;i<30; i++) {
 			try {
-				if(driver.findElement(by).isDisplayed()) waitTime(5);
+				if(driver.findElement(by).isDisplayed()) waitTime(2);
 				else break;
 			}catch(Exception e) {break;}
 		}
