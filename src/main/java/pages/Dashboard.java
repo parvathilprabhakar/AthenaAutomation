@@ -31,6 +31,7 @@ public class Dashboard {
 		} catch (Exception e) {
 			u.rep.logInReport("Fail", "Failed to display Dashboard");//ToDo: Need to handle with listeners
 		}
+		verifyIfIdIsDisplayed();
 	}
 	
 	public String verifyIfFirstLastNameIsDisplayed(String fName, String lName) {
@@ -68,7 +69,7 @@ public class Dashboard {
 			if (u.isDisplayed(byAthenaId)) {
 				athenaID = u.getText(byAthenaId);
 				u.rep.logInReport("Pass", "Athena Id is displayed.<br>" + athenaID);
-			
+				u.objUserDetailsRepo.setAthenaID(athenaID);
 			} else
 				u.rep.logInReport("Fail", "Failed to display Athena Id in Dashboard");
 		} catch (Exception e) {

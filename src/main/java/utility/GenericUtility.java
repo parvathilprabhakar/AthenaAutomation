@@ -25,6 +25,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import repo.UserDetailsRepo;
+
 /*
  * GenericUtility is inherited by the Page Object Model classes in src/main/java/pages
  */
@@ -36,6 +38,8 @@ public class GenericUtility {
 	String data;
 	public ExtentReport rep;
 	String reportScreenshotFileName;
+	public 
+	UserDetailsRepo objUserDetailsRepo;
 
 	public GenericUtility(WebDriver driver, String className) {
 		this.driver = driver;
@@ -59,8 +63,9 @@ public class GenericUtility {
 		}
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		this.rep=rep;
+		this.rep = rep;
 		rep.setGenericUtilityInstance(this);
+		objUserDetailsRepo = new UserDetailsRepo();
 //		rep = new ExtentReport(this);
 //		rep.initiateExtentReport(className);
 	}
@@ -70,10 +75,10 @@ public class GenericUtility {
 
 	// *********************** Screenshot **********************************
 	public String takeScreenshot() {
-		//waitForLoading();
+		// waitForLoading();
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName + "\\Screenshot"
-				+ System.currentTimeMillis() + ".png");
+		File Dest = new File(System.getProperty("user.dir") + "\\ExtentReport\\" + reportScreenshotFileName
+				+ "\\Screenshot" + System.currentTimeMillis() + ".png");
 		String flpath = Dest.getAbsolutePath();
 		try {
 			FileUtils.copyFile(scrFile, Dest);
@@ -81,7 +86,7 @@ public class GenericUtility {
 		}
 		return flpath;
 	}
-	
+
 //	public String takeScreenshot() {
 //		String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 //		return base64Screenshot;
@@ -101,7 +106,7 @@ public class GenericUtility {
 
 	// *********************** Wait Commands **********************************
 	public WebElement waitToClick(By by) {
-		//waitForLoading();
+		// waitForLoading();
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(by)));
@@ -114,8 +119,22 @@ public class GenericUtility {
 		return driver.findElement(by);
 	}
 
+	public WebElement waitToClick(WebElement e) {
+		// waitForLoading();
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, 60);
+			wait.until(ExpectedConditions.elementToBeClickable(e));
+
+		} catch (Exception ex) {
+			waitTime(2);
+			WebDriverWait wait = new WebDriverWait(driver, 60);
+			wait.until(ExpectedConditions.elementToBeClickable(e));
+		}
+		return e;
+	}
+
 	public WebElement waitToVisible(By by) {
-		//waitForLoading();
+		// waitForLoading();
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
@@ -134,13 +153,18 @@ public class GenericUtility {
 //			wait.ignoring(StaleElementReferenceException.class);
 //			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 		waitTime(2);
-		for(int i=0;i<30; i++) {
+		for (int i = 0; i < 30; i++) {
 			try {
-				if(driver.findElement(by).isDisplayed()) waitTime(2);
-				else break;
-			}catch(Exception e) {break;}
+				if (driver.findElement(by).isDisplayed())
+					waitTime(2);
+				else
+					break;
+			} catch (Exception e) {
+				break;
+			}
 		}
 	}
+
 	public void waitTime(int timeInSecs) {
 		try {
 			Thread.sleep(1000 * timeInSecs);
@@ -152,13 +176,14 @@ public class GenericUtility {
 
 	// ************************** Web Element Commands *************************
 	public WebElement element(By by) {
-		//waitForLoading();
+		// waitForLoading();
 		// waitToClick(by);
 		e = driver.findElement(by);
 		return e;
 	}
+
 	public List<WebElement> elements(By by) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToVisible(by);
 		return driver.findElements(by);
 	}
@@ -171,7 +196,7 @@ public class GenericUtility {
 	}
 
 	public WebElement enterTextbox(By by, String text) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		click(by);
@@ -181,39 +206,43 @@ public class GenericUtility {
 	}
 
 	public String getText(By locator) {
-		//waitForLoading();
+		// waitForLoading();
 		webElement = driver.findElement(locator);
 		data = webElement.getText();
 		return data;
 	}
-	
-	public void isDisplayed(By byLocator,String elementName) {
-		//waitForLoading();
+
+	public void isDisplayed(By byLocator, String elementName) {
+		// waitForLoading();
 		waitToVisible(byLocator);
-		if(driver.findElement(byLocator).isDisplayed())
-			rep.logInReport("Pass", elementName+" is displayed");
+		if (driver.findElement(byLocator).isDisplayed())
+			rep.logInReport("Pass", elementName + " is displayed");
 		else
-			rep.logInReport("Fail", elementName+" is NOT displayed");
+			rep.logInReport("Fail", elementName + " is NOT displayed");
 	}
+
 	public boolean isDisplayed(By byLocator) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToVisible(byLocator);
-		if(driver.findElement(byLocator).isDisplayed())
+		if (driver.findElement(byLocator).isDisplayed())
 			return true;
 		else
 			return false;
 	}
-	// ************************** Javascript Class Commands *************************
-	
+
+	// ************************** Javascript Class Commands
+	// *************************
+
 	public void jsClick(By by) {
-		//waitForLoading();
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		// waitForLoading();
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		jse.executeScript("arguments[0].click();", element(by));
-		
+
 	}
+
 	// ************************** Actions Class Commands *************************
 	public WebElement aClick(By by) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		Actions actions = new Actions(driver);
@@ -221,9 +250,27 @@ public class GenericUtility {
 		return e;
 	}
 
+	public WebElement aHover(By by) {
+		// waitForLoading();
+		waitToClick(by);
+		e = driver.findElement(by);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(e).build().perform();
+		return e;
+	}
+
+	public WebElement aHover(WebElement e) {
+		// waitForLoading();
+		waitToClick(e);
+		// e = driver.findElement(by);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(e).build().perform();
+		return e;
+	}
+
 	// ************************** Drop Down Commands *************************
 	public WebElement selectDropDownByIndex(By by, int index) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -233,7 +280,7 @@ public class GenericUtility {
 	}
 
 	public WebElement selectDropDownByValue(By by, String value) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -243,7 +290,7 @@ public class GenericUtility {
 	}
 
 	public WebElement selectDropDownByVisibleText(By by, String text) {
-		//waitForLoading();
+		// waitForLoading();
 		waitToClick(by);
 		e = driver.findElement(by);
 		e.isSelected();
@@ -256,18 +303,23 @@ public class GenericUtility {
 		return driver;
 	}
 
-	//******************************** Misc *********************************
+	// ******************************** Misc *********************************
 	public static String getRandomValue() {
 		return "" + System.currentTimeMillis();
 	}
+
 	public static String getDateTime() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		return LocalDate.now().format(formatter)+"_"+getRandomValue();
+		return LocalDate.now().format(formatter) + "_" + getRandomValue();
 	}
-	//******************************** Project Specific *********************************
+	// ******************************** Project Specific
+	// *********************************
 
 	public void waitForLoading() {
 		By byLoading = By.xpath("//img[@class='ath-spinner']");
-		try {waitUntilInvisible(byLoading);}catch(Exception e) {}
+		try {
+			waitUntilInvisible(byLoading);
+		} catch (Exception e) {
+		}
 	}
 }

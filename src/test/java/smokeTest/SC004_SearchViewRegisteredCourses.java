@@ -12,13 +12,17 @@ public class SC004_SearchViewRegisteredCourses extends BaseClass {
 		email = x.readData("Email");
 		password = x.readData("Password");
 		objSignIn.loginToApplication(email,password);
+		u.objUserDetailsRepo.setAthenaID(x.readData("AthenaID"));
 		objDashboard.verifyIfDashboardDisplayed();
 		objRegisteredCourses.searchCourseAndValidateResults(x.readData("Course name to be searched"));
 		objRegisteredCourses.searchCourseAndValidateResults("QA");
 		objRegisteredCourses.searchCourseAndValidateResults("basic");
-		objRegisteredCourses.verifyCourseCountListed(); //ToDo: Update code to check with DB once access is provided
+		objRegisteredCourses.exitSearch();
+		objRegisteredCourses.verifyCourseCountListed(); //ToDo: Update code to check with DB once query is provided
 		objRegisteredCourses.validateLastAccessedCourseIsUpdated();
 		objRegisteredCourses.validateCourseNamesInCards();
+		objRegisteredCourses.validateLessonsLeftValue();//ToDo: Update code to check with DB once query is provided
+		objRegisteredCourses.validateIfSharingOptionIsEnabled();//ToDo: Update code to check with DB once query is provided
 		
 		
 		
