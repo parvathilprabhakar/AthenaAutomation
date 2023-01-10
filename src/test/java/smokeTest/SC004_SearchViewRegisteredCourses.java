@@ -1,12 +1,14 @@
 package smokeTest;
 
 import org.testng.annotations.Test;
+
+import utility.DBConnector;
 import utility.ExcelUtility;
 
 public class SC004_SearchViewRegisteredCourses extends BaseClass {
 	ExcelUtility x = new ExcelUtility("SC004");
 
-	@Test(enabled = true, priority = 0)
+	//@Test(enabled = true, priority = 0)
 	public void validateRegisteredCourses_AddViewSearch() throws Exception {
 		u.launchUrl(prop.getPropData().getProperty("URL"));
 		email = x.readData("Email");
@@ -25,13 +27,11 @@ public class SC004_SearchViewRegisteredCourses extends BaseClass {
 		objRegisteredCourses.validateIfSharingOptionIsEnabled();//ToDo: Update code to check with DB once query is provided
 		
 		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-}
+	@Test(enabled = true, priority = 0)
+	public void temp() throws Exception {
+		DBConnector db = new DBConnector();
+		db.Select_IsClaimed_FromCourseEnrolment_UID_CID("221175512", "165");
+	}
+	}
+

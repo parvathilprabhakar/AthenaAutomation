@@ -24,5 +24,12 @@ public class ReadPropFile {
 		properties.load(fStream);}catch(Exception e) {}
 		return properties;
 	}
+	public Properties getQuery() {
+		String propFilePath = System.getProperty("user.dir");
+		try{fStream = new FileInputStream(propFilePath + "\\resources\\queries.properties");
+		properties = new Properties();
+		properties.load(fStream);}catch(Exception e) {}
+		return properties;
+	}
 
 }

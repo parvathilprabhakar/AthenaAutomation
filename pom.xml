@@ -38,12 +38,12 @@
 			<version>3.17</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.relevantcodes/extentreports -->
-				<dependency>
+		<dependency>
 			<groupId>com.relevantcodes</groupId>
 			<artifactId>extentreports</artifactId>
 			<version>2.41.2</version>
-		</dependency> 
-	<!--	<dependency>
+		</dependency>
+		<!--	<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>extentreports</artifactId>
 			<version>5.0.8</version>
@@ -56,6 +56,10 @@
 			<artifactId>libphonenumber</artifactId>
 			<version>8.4.3</version>
 		</dependency>
-
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.11</version>
+		</dependency>
 	</dependencies>
 </project>
